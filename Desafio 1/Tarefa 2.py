@@ -6,7 +6,7 @@ vendas2015 = pd.read_csv("AdventureWorks_Sales_2015.csv")
 vendas2016 = pd.read_csv("AdventureWorks_Sales_2016.csv")
 vendas2017 = pd.read_csv("AdventureWorks_Sales_2017.csv")
 vendastotais = pd.concat([vendas2015, vendas2016, vendas2017])
-# clientes = pd.read_excel('AdventureWorks_Customers.xlsx')
+territorios = pd.read_csv('AdventureWorks_Territories.csv')
 
 #melhores vendas por produto
 vendas_totais_por_produto = vendastotais.groupby(['ProductKey'], as_index=False).sum().sort_values(by='OrderQuantity', ascending=False)
@@ -40,8 +40,9 @@ total_vendas_meses = total_vendas_meses.groupby(['Mes']).sum()
 total_vendas_meses.to_csv('Total_Vendas_Meses.csv')
 
 #VENDAS POR REGIÃO
-total_vendas_territorio.to_excel('Venda por territorio.xlsx')
-# total_vendas_territorio = pd.DataFrame(total_vendas_territorio.loc[:, ['TerritoryKey','Total']]).sort_values(by=['TerritoryKey'])
-# print(total_vendas_territorio.groupby(['TerritoryKey']).sum())
-# media_territorios = total_vendas_territorio['Total'].mean()
-# print(media_territorios)
+territorios = pd.DataFrame(territorios.loc[:, ['SalesTerritoryKey', 'Region']])
+total_vendas_territorio = pd.DataFrame(total_vendas_territorio.loc[:, ['TerritoryKey','Total']]).sort_values(by=['TerritoryKey'])
+total_vendas_territorio = pd.DataFrame(total_vendas_territorio.groupby(['TerritoryKey']).sum())
+territorios = territorios.merge(total_vendas_territorio, left_on='SalesTerritoryKey', right_on='TerritoryKey')
+territorios = territorios.drop(columns=['SalesTerritoryKey']).set_index('Region')
+territorios.to_csv("Vendas_Por_Região.csv")
