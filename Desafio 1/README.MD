@@ -1,5 +1,6 @@
 ### LINGUAGEM: Python 3.10.4
-### BIBLIOTECAS: pandas, matplotlib
+### BIBLIOTECAS: pandas, matplotlib, seaborn
+### IDES: Pycharm
 
 ### **PEQUENA DESCRIÇÃO DA REALIZAÇÃO DAS TARFEAS**
 
